@@ -1,0 +1,291 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@import "tailwindcss";
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+/* CIRCLE ARROW CONTROLS (glass) */
+.circle-control {
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(6px);
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.circle-control:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* ORB DOTS (new) */
+.orb-dot {
+  width: 72px;
+  height: 72px;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  transition: transform 350ms cubic-bezier(.2, .9, .3, 1), box-shadow 300ms, background 300ms;
+  cursor: pointer;
+  overflow: visible;
+}
+
+/* diamond svg inside */
+.orb-dot .diamond-svg {
+  width: 26px;
+  height: 26px;
+  transition: transform 420ms cubic-bezier(.2, .9, .3, 1), opacity 250ms;
+  transform-origin: center;
+  z-index: 5;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.35));
+}
+
+/* subtle halo */
+.orb-dot::after {
+  content: "";
+  position: absolute;
+  width: 110%;
+  height: 110%;
+  border-radius: 9999px;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 380ms, transform 380ms;
+  background: radial-gradient(closest-side, rgba(255, 157, 182, 0.10), rgba(255, 111, 155, 0.03), transparent 60%);
+  transform: scale(0.9);
+}
+
+/* active state */
+.orb-dot.active {
+  transform: translateY(-14px) scale(1.06);
+  background: linear-gradient(135deg, rgba(255, 157, 182, 0.08), rgba(255, 111, 155, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 40px 120px rgba(255, 110, 135, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.orb-dot.active::after {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* active diamond */
+.orb-dot.active .diamond-svg {
+  transform: rotate(7deg) scale(1.08);
+}
+
+/* small bounce loop for active */
+@keyframes orbBounce {
+  0% {
+    transform: translateY(-14px) scale(1.06);
+  }
+
+  50% {
+    transform: translateY(-12px) scale(1.03);
+  }
+
+  100% {
+    transform: translateY(-14px) scale(1.06);
+  }
+}
+
+.orb-dot.active {
+  animation: orbBounce 3.2s ease-in-out infinite;
+}
+
+/* reduce sizes on mobile */
+@media (max-width: 640px) {
+  .orb-dot {
+    width: 56px;
+    height: 56px;
+  }
+
+  .orb-dot .diamond-svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* MENU TOGGLE (circular morphing) */
+.menu-toggle {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.005));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  transition: transform 220ms ease, box-shadow 220ms, background 220ms;
+}
+
+.menu-toggle:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55);
+}
+
+/* lines inside svg */
+.menu-toggle .lines rect {
+  fill: rgba(255, 255, 255, 0.95);
+  transition: transform 300ms cubic-bezier(.2, .9, .3, 1), opacity 200ms;
+  transform-origin: center;
+}
+
+/* open state: morph */
+.menu-toggle .lines.open .l1 {
+  transform: translateY(10px) rotate(45deg);
+}
+
+.menu-toggle .lines.open .l2 {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.menu-toggle .lines.open .l3 {
+  transform: translateY(-10px) rotate(-45deg);
+}
+
+/* ring animation */
+.ring-anim {
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 260ms, transform 260ms;
+  transform: scale(0.9);
+  box-shadow: 0 0 0 0 rgba(255, 110, 135, 0.08);
+}
+
+.ring-anim.active {
+  opacity: 1;
+  transform: scale(1);
+  box-shadow: 0 12px 40px rgba(255, 110, 135, 0.08);
+}
+
+/* small helpers */
+.sr-only {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+/* subtle text glow for cinematic headings */
+.hero-heading-shadow {
+  text-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* we used drop-shadow utilities in JSX; add a stronger shadow variant if you want */
+.drop-shadow-2xl {
+  filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.6));
+}
+
+/* accessible sr-only (if not already present) */
+.sr-only {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+
+
+/* Service section */
+/* Reveal + staggered entrance */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px) scale(0.997);
+  transition:
+    opacity 720ms cubic-bezier(.2, .9, .3, 1),
+    transform 880ms cubic-bezier(.2, .9, .3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Slight per-child stagger (optional fine-tune) */
+.reveal .stagger {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 420ms ease, transform 460ms ease;
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible .stagger {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Feature image entrance (scale up slightly on reveal) */
+.reveal .feature-img {
+  transform: scale(0.995);
+}
+
+.reveal.is-visible .feature-img {
+  transform: scale(1);
+  transition: transform 1000ms cubic-bezier(.2, .9, .3, 1);
+}
+
+/* tile hover - image scale + smoother motion */
+.tile-img,
+.feature-img {
+  will-change: transform;
+  transition: transform 900ms cubic-bezier(.2, .9, .3, 1);
+}
+
+/* group hover micro-lift for tiles */
+.group:hover {
+  transform: translateY(-4px);
+  transition: transform 420ms cubic-bezier(.2, .9, .3, 1);
+}
+
+/* CTA buttons float after reveal to add subtle life */
+.btn-float {
+  animation: floatBtn 3.8s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes floatBtn {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* button press micro feedback */
+.btn-float:active {
+  transform: translateY(1px) scale(0.995);
+}
+
+/* reduce motion preference */
+@media (prefers-reduced-motion: reduce) {
+
+  .reveal,
+  .feature-img,
+  .tile-img,
+  .btn-float,
+  .group:hover {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+}
