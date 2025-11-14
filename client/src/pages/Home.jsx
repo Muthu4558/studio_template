@@ -3,6 +3,9 @@ import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import Service from '../components/Service'
 import About from '../components/About'
+import Portfolio from '../components/Portfolio'
+import Started from '../components/Started'
+import Footer from '../components/Footer'
 
 const Home = () => {
   return (
@@ -11,6 +14,9 @@ const Home = () => {
         <Hero />
         <Service />
         <About />
+        <Portfolio />
+        <Started />
+        <Footer />
     </div>
   )
 }
